@@ -1,5 +1,4 @@
-from Chessnut import Game
-import random
+from stockfish import Stockfish
 
 def chess_bot(obs):
     """
@@ -11,26 +10,15 @@ def chess_bot(obs):
     Returns:
         A string representing the chosen move in UCI notation (e.g., "e2e4")
     """
-    # 0. Parse the current board state and generate legal moves using Chessnut library
-    game = Game(obs.board)
-    moves = list(game.get_moves())
+    # Initialize the Stockfish engine
+    stockfish_path = r"C:\Users\USER\Desktop\Supahotfile\Kaggle\GoogleChessAI\kaggle\input\stockfish\stockfish-windows-x86-64-avx2.exe"
+    stockfish = Stockfish(path=stockfish_path)
 
-    # 1. Check a subset of moves for checkmate
-    for move in moves[:10]:
-        g = Game(obs.board)
-        g.apply_move(move)
-        if g.status == Game.CHECKMATE:
-            return move
+    # Set the board position using the FEN string from observation
+    fen = obs.board  # FEN string representing the current board state
+    stockfish.set_fen_position(fen)
 
-    # 2. Check for captures
-    for move in moves:
-        if game.board.get_piece(Game.xy2i(move[2:4])) != ' ':
-            return move
+    # Get the best move from Stockfish
+    best_move = stockfish.get_best_move(1000)
 
-    # 3. Check for queen promotions
-    for move in moves:
-        if "q" in move.lower():
-            return move
-
-    # 4. Random move if no checkmates or captures
-    return random.choice(moves)
+    return best_move
