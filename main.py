@@ -1,24 +1,51 @@
-from stockfish import Stockfish
+from Chessnut import Game
+import subprocess
+import os
 
-def chess_bot(obs):
-    """
-    Simple chess bot that prioritizes checkmates, then captures, queen promotions, then randomly moves.
+class ChessEngine:
+    def __init__(self, engine_path):
+        # Check if the engine file exists
+        if not os.path.exists(engine_path):
+            raise FileNotFoundError(f"Engine file not found at {engine_path}")
 
-    Args:
-        obs: An object with a 'board' attribute representing the current board state as a FEN string.
+        #  Initialize the subprocess
+        self.engine = subprocess.Popen(
+            [engine_path],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
 
-    Returns:
-        A string representing the chosen move in UCI notation (e.g., "e2e4")
-    """
-    # Initialize the Stockfish engine
-    stockfish_path = r"C:\Users\USER\Desktop\Supahotfile\Kaggle\GoogleChessAI\kaggle\input\stockfish\stockfish-windows-x86-64-avx2.exe"
-    stockfish = Stockfish(path=stockfish_path)
+    def _send_command(self, command):
+        self.engine.stdin.write(command + "\n")
+        self.engine.stdin.flush()
 
-    # Set the board position using the FEN string from observation
-    fen = obs.board  # FEN string representing the current board state
-    stockfish.set_fen_position(fen)
+    def _read_output(self):
+        output = self.engine.stdout.readline().strip()
+        return output
 
-    # Get the best move from Stockfish
-    best_move = stockfish.get_best_move(1000)
+    def get_best_move(self, fen, movetime=100):
+        self._send_command(fen)
+        best_move = None
+        while True:
+            best_move = self._read_output()
+            if best_move:
+                break
+        return best_move
 
-    return best_move
+    def stop(self):
+        self._send_command("quit")
+        self.engine.terminate()
+        self.engine.wait()
+
+
+engine_path = r'C:\Users\USER\Desktop\Supahotfile\Kaggle\GoogleChessAI\engine\engine.exe'
+engine = None
+
+def chess_bot(obs):    
+    global engine
+    fen = obs['board']
+    if engine is None:
+        engine = ChessEngine(engine_path)
+    return engine.get_best_move(fen)
