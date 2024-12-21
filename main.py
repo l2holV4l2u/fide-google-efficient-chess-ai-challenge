@@ -35,12 +35,12 @@ class ChessEngine:
         return best_move
 
     def stop(self):
-        self._send_command("quit")
+        self._send_command("q")
         self.engine.terminate()
         self.engine.wait()
 
 
-engine_path = r'C:\Users\USER\Desktop\Supahotfile\Kaggle\GoogleChessAI\engine\engine.exe'
+engine_path = r'C:\Users\USER\Desktop\Supahotfile\fide-google-efficient-chess-ai-challenge\engine\main.exe'
 engine = None
 
 def chess_bot(obs):    
@@ -48,4 +48,6 @@ def chess_bot(obs):
     fen = obs['board']
     if engine is None:
         engine = ChessEngine(engine_path)
-    return engine.get_best_move(fen)
+    best_move = engine.get_best_move(fen)
+    print(best_move)
+    return best_move
