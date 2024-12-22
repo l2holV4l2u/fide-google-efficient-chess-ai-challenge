@@ -19,6 +19,6 @@ public:
 };
 
 // Function declaration for finding moves
-vector <string> findMoves(const Chess& chess);
+vector <string> findMoves(const Chess& localchess);
 
 #endif // ENGINE_H
