@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Chess::Chess(const string& fenBoard) {
+Chess::Chess(string fenBoard) {
     fen = fenBoard;
     string boardPart = fenBoard.substr(0, fenBoard.find(" "));
     int pos = 0;
@@ -14,13 +14,30 @@ Chess::Chess(const string& fenBoard) {
                     board[7 - pos / 8][pos % 8] = ' ';
                     pos++;
                 }
+                continue;
             } 
-            else { // Pieces        
-                board[7 - pos / 8][pos % 8] = boardPart[i];
-                pos++;
+            else if (boardPart[i] == 'k' || boardPart[i] == 'K') { // Kings
+                king[boardPart[i] == 'K'][0] = 7 - pos / 8;
+                king[boardPart[i] == 'K'][1] = pos % 8;
             }
+            board[7 - pos / 8][pos % 8] = boardPart[i];
+            pos++;
         }
     }
+}
+
+void Chess::makeMove(string move) {
+    int startRow = 8 - (move[1] - '0');
+    int startCol = move[0] - 'a';
+    int endRow = 8 - (move[3] - '0');
+    int endCol = move[2] - 'a';
+    board[endRow][endCol] = board[startRow][startCol];
+    board[startRow][startCol] = ' ';
+    turn = !turn;
+}
+
+int evaluate(){
+    return 0;
 }
 
 void Chess::showBoard() const {

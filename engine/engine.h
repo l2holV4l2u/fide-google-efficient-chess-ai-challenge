@@ -12,13 +12,17 @@ public:
     char board[8][8]; // 2D array to store the board
     string fen; // FEN representation of the board
     bool turn; // 0 for black, 1 for white
+    int king[2][2]; // position of the kings
 
-    // Constructor declaration (using `const string&` for efficiency and consistency)
-    Chess(const string& fenBoard);
+    Chess(string fenBoard);
+    void makeMove(string move);
     void showBoard() const;
+    int evaluate();
 };
 
 // Function declaration for finding moves
-vector <string> findMoves(const Chess& localchess);
+vector <string> findAllMoves(Chess& localchess);
+
+string findBestMove(Chess& localchess);
 
 #endif // ENGINE_H

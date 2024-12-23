@@ -4,7 +4,7 @@
 #include <ctime>   
 #include "engine.h"
 #include "chess.cpp"
-#include "move.cpp"
+#include "movegen.cpp"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main() {
     while (input != "q") {
         getline(cin, input);
         Chess chess(input);
-        vector <string> moves = findMoves(chess);
+        vector <string> moves = findAllMoves(chess);
         if (!moves.empty()) {
             // Pick a random index from the moves vector
             int randomIndex = rand() % moves.size();
@@ -28,3 +28,9 @@ int main() {
     }
     return 0;
 }
+/*
+Queen check
+r1b1kbnr/pp2ppp1/2qp4/7p/2K1P3/8/PPP2PPP/RNBQ1BNR w kq - 0 8
+
+*/
+
