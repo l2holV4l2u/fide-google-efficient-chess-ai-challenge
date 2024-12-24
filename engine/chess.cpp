@@ -26,14 +26,14 @@ Chess::Chess(string fenBoard) {
     }
 }
 
-void Chess::makeMove(string move) {
-    int startRow = 8 - (move[1] - '0');
-    int startCol = move[0] - 'a';
-    int endRow = 8 - (move[3] - '0');
-    int endCol = move[2] - 'a';
-    board[endRow][endCol] = board[startRow][startCol];
-    board[startRow][startCol] = ' ';
-    turn = !turn;
+Chess Chess::makeMove(string move) {
+    Chess newchess = *this;
+    int startRow = move[1] - '0', startCol = move[0] - 'a';
+    int endRow = move[3] - '0', endCol = move[2] - 'a';
+    newchess.board[endRow][endCol] = newchess.board[startRow][startCol];
+    newchess.board[startRow][startCol] = ' ';
+    newchess.turn = !turn;
+    return newchess;
 }
 
 int evaluate(){

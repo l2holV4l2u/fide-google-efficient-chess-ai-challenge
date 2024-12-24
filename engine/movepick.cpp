@@ -1,3 +1,4 @@
+/*
 #include"engine.h"
 
 int minimax(Chess& localchess, int depth, int alpha, int beta, bool isMaximizing) {
@@ -30,7 +31,6 @@ int minimax(Chess& localchess, int depth, int alpha, int beta, bool isMaximizing
 
 string findBestMove(Chess& localchess) {
     vector <string> moves = findAllMoves(localchess);
-    if (moves.empty()) return "No valid moves available.";
     int bestScore = -1e9;
     string bestMove;
     for (string move : moves) {
@@ -44,3 +44,4 @@ string findBestMove(Chess& localchess) {
     }
     return bestMove;
 }
+*/

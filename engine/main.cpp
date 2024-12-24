@@ -9,8 +9,8 @@
 using namespace std;
 
 int main() {
-    bool turn = 0; // 0 for white, 1 for black
     string input;
+    /*
     srand(static_cast<unsigned int>(time(nullptr)));
     while (input != "q") {
         getline(cin, input);
@@ -26,11 +26,15 @@ int main() {
             break;
         }
     }
+    */
+    getline(cin, input);
+    Chess chess(input);
+    vector <string> moves = findAllMoves(chess);
+    Chess newchess = chess.makeMove(moves[0]);
+    chess.showBoard();
+    cout << "-------------------" << endl;
+    cout << moves[0] << endl;
+    cout << "-------------------" << endl;
+    newchess.showBoard();
     return 0;
 }
-/*
-Queen check
-r1b1kbnr/pp2ppp1/2qp4/7p/2K1P3/8/PPP2PPP/RNBQ1BNR w kq - 0 8
-
-*/
-

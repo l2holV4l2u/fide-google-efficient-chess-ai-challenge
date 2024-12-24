@@ -15,7 +15,7 @@ public:
     int king[2][2]; // position of the kings
 
     Chess(string fenBoard);
-    void makeMove(string move);
+    Chess makeMove(string move);
     void showBoard() const;
     int evaluate();
 };
